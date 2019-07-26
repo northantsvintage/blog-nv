@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "target": "blog-nv",
+    "public": "_site",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

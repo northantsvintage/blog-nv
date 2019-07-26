@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "test-youtube-react"
+  },
+  "targets": {
+    "test-youtube-react": {
+      "hosting": {
+        "blog-nv": [
+          "blog-nv"
+        ]
+      }
+    }
+  }
+}
