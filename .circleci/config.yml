@@ -55,6 +55,10 @@ jobs:
               --format progress \
               $TEST_FILES
 
+         - run:
+                  name: Firebase Deploy
+                  command: firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+
       # collect reports
       - store_test_results:
           path: /tmp/test-results
