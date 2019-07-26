@@ -57,8 +57,7 @@ jobs:
 
         - run:
           name: Firebase Deploy
-          commands:
-          - firebase use default
+          command:
           - firebase deploy --token=$FIREBASE_TOKEN --non-interactive
 
       # collect reports
@@ -67,12 +66,3 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-
-# How you tell Circle to deploy to Firebase. The important thing to
-# note here is the FIREBASE_TOKEN env variable. See below.
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - firebase use default
-#       - firebase deploy --token=$FIREBASE_TOKEN --non-interactive
