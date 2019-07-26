@@ -27,4 +27,5 @@ deployment:
   production:
     branch: master
     commands:
+      - firebase use default
       - firebase deploy --token=$FIREBASE_TOKEN --non-interactive
