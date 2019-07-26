@@ -9,44 +9,34 @@ jobs:
       # specify the version you desire here
       - image: circleci/ruby:2.4.1-node-browsers
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
+     working_directory: ~/repo
 
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
       - run:
-          name: Ruby dependencies
-          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
-
+          name: Install npm
+          command: npm install
       - run:
-          name: Node dependencies
-          command: npm install -g firebase-tools@3.9.1 --unsafe-perm
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle	
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
+          name: Install Bundler
+          command: gem install bundler:2.0.1
       - run:
-          name: Build
+          name: Install Bundle
+          command: bundle check || bundle install
+      - run:
+          name: Install Firebase Tools
+          command: sudo npm install -g firebase-tools
+      - run:
+          name: Build Jekyll Site
           command: bundle exec jekyll build --verbose
-      
       - run:
-          name: Test
-          command: bundle exec htmlproofer ./_site --check-html --disable-external
-      
-      - run:
-             name: Deploy Master to Firebase
-             command: firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+          name: Deploy to Firebase
+          command: firebase deploy --token=$FIREBASE_TOKEN --non-interactive
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
