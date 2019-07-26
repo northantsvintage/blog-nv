@@ -28,7 +28,7 @@ jobs:
 
       - run:
           name: Ruby dependencies
-          command: bundle install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - run:
           name: Node dependencies
@@ -36,9 +36,8 @@ jobs:
 
       - save_cache:
           paths:
-            - /usr/local/bundle
-            - /usr/local/lib/node_modules
-          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+            - ./vendor/bundle	
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - run:
           name: Build
